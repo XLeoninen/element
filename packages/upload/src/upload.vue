@@ -1,4 +1,6 @@
 <script>
+//整个文件只有js，其中包括了大部分配置
+//
 import ajax from './ajax';
 import UploadDragger from './upload-dragger.vue';
 
@@ -30,11 +32,11 @@ export default {
     drag: Boolean,
     onPreview: {
       type: Function,
-      default: function() {}
+      default: function () { }
     },
     onRemove: {
       type: Function,
-      default: function() {}
+      default: function () { }
     },
     fileList: Array,
     autoUpload: Boolean,
@@ -48,7 +50,7 @@ export default {
     onExceed: Function
   },
 
-  data() {
+  data () {
     return {
       mouseover: false,
       reqs: {}
@@ -56,16 +58,16 @@ export default {
   },
 
   methods: {
-    isImage(str) {
+    isImage (str) {
       return str.indexOf('image') !== -1;
     },
-    handleChange(ev) {
+    handleChange (ev) {
       const files = ev.target.files;
 
       if (!files) return;
       this.uploadFiles(files);
     },
-    uploadFiles(files) {
+    uploadFiles (files) {
       if (this.limit && this.fileList.length + files.length > this.limit) {
         this.onExceed && this.onExceed(files, this.fileList);
         return;
@@ -81,7 +83,7 @@ export default {
         if (this.autoUpload) this.upload(rawFile);
       });
     },
-    upload(rawFile) {
+    upload (rawFile) {
       this.$refs.input.value = null;
 
       if (!this.beforeUpload) {
@@ -117,7 +119,7 @@ export default {
         this.onRemove(null, rawFile);
       }
     },
-    abort(file) {
+    abort (file) {
       const { reqs } = this;
       if (file) {
         let uid = file;
@@ -132,7 +134,7 @@ export default {
         });
       }
     },
-    post(rawFile) {
+    post (rawFile) {
       const { uid } = rawFile;
       const options = {
         headers: this.headers,
@@ -159,13 +161,13 @@ export default {
         req.then(options.onSuccess, options.onError);
       }
     },
-    handleClick() {
+    handleClick () {
       if (!this.disabled) {
         this.$refs.input.value = null;
         this.$refs.input.click();
       }
     },
-    handleKeydown(e) {
+    handleKeydown (e) {
       if (e.target !== e.currentTarget) return;
       if (e.keyCode === 13 || e.keyCode === 32) {
         this.handleClick();
@@ -173,7 +175,7 @@ export default {
     }
   },
 
-  render(h) {
+  render (h) {
     let {
       handleClick,
       drag,

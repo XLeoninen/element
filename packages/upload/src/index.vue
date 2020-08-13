@@ -4,20 +4,21 @@ import Upload from './upload';
 import ElProgress from 'element-ui/packages/progress';
 import Migrating from 'element-ui/src/mixins/migrating';
 
-function noop() {}
+//noop是干嘛的，空操作，留着这东西干嘛
+function noop () { }
 
 export default {
   name: 'ElUpload',
 
-  mixins: [Migrating],
+  mixins: [Migrating],//加一些通用的调试方法
 
   components: {
-    ElProgress,
+    ElProgress,//这东西用来干嘛的
     UploadList,
     Upload
   },
 
-  provide() {
+  provide () {
     return {
       uploader: this
     };
@@ -36,7 +37,7 @@ export default {
     },
     headers: {
       type: Object,
-      default() {
+      default () {
         return {};
       }
     },
@@ -85,7 +86,7 @@ export default {
     },
     fileList: {
       type: Array,
-      default() {
+      default () {
         return [];
       }
     },
@@ -106,7 +107,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       uploadFiles: [],
       dragOver: false,
@@ -116,13 +117,13 @@ export default {
   },
 
   computed: {
-    uploadDisabled() {
+    uploadDisabled () {
       return this.disabled || (this.elForm || {}).disabled;
     }
   },
 
   watch: {
-    listType(type) {
+    listType (type) {
       if (type === 'picture-card' || type === 'picture') {
         this.uploadFiles = this.uploadFiles.map(file => {
           if (!file.url && file.raw) {
@@ -138,7 +139,7 @@ export default {
     },
     fileList: {
       immediate: true,
-      handler(fileList) {
+      handler (fileList) {
         this.uploadFiles = fileList.map(item => {
           item.uid = item.uid || (Date.now() + this.tempIndex++);
           item.status = item.status || 'success';
@@ -149,7 +150,7 @@ export default {
   },
 
   methods: {
-    handleStart(rawFile) {
+    handleStart (rawFile) {
       rawFile.uid = Date.now() + this.tempIndex++;
       let file = {
         status: 'ready',
@@ -172,13 +173,13 @@ export default {
       this.uploadFiles.push(file);
       this.onChange(file, this.uploadFiles);
     },
-    handleProgress(ev, rawFile) {
+    handleProgress (ev, rawFile) {
       const file = this.getFile(rawFile);
       this.onProgress(ev, file, this.uploadFiles);
       file.status = 'uploading';
       file.percentage = ev.percent || 0;
     },
-    handleSuccess(res, rawFile) {
+    handleSuccess (res, rawFile) {
       const file = this.getFile(rawFile);
 
       if (file) {
@@ -189,7 +190,7 @@ export default {
         this.onChange(file, this.uploadFiles);
       }
     },
-    handleError(err, rawFile) {
+    handleError (err, rawFile) {
       const file = this.getFile(rawFile);
       const fileList = this.uploadFiles;
 
@@ -200,7 +201,7 @@ export default {
       this.onError(err, file, this.uploadFiles);
       this.onChange(file, this.uploadFiles);
     },
-    handleRemove(file, raw) {
+    handleRemove (file, raw) {
       if (raw) {
         file = this.getFile(raw);
       }
@@ -224,7 +225,7 @@ export default {
         }
       }
     },
-    getFile(rawFile) {
+    getFile (rawFile) {
       let fileList = this.uploadFiles;
       let target;
       fileList.every(item => {
@@ -233,20 +234,20 @@ export default {
       });
       return target;
     },
-    abort(file) {
+    abort (file) {
       this.$refs['upload-inner'].abort(file);
     },
-    clearFiles() {
+    clearFiles () {
       this.uploadFiles = [];
     },
-    submit() {
+    submit () {
       this.uploadFiles
         .filter(file => file.status === 'ready')
         .forEach(file => {
           this.$refs['upload-inner'].upload(file.raw);
         });
     },
-    getMigratingConfig() {
+    getMigratingConfig () {
       return {
         props: {
           'default-file-list': 'default-file-list is renamed to file-list.',
@@ -257,7 +258,7 @@ export default {
     }
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     this.uploadFiles.forEach(file => {
       if (file.url && file.url.indexOf('blob:') === 0) {
         URL.revokeObjectURL(file.url);
@@ -265,7 +266,7 @@ export default {
     });
   },
 
-  render(h) {
+  render (h) {
     let uploadList;
 
     if (this.showFileList) {
@@ -323,14 +324,14 @@ export default {
 
     return (
       <div>
-        { this.listType === 'picture-card' ? uploadList : ''}
+        {this.listType === 'picture-card' ? uploadList : ''}
         {
           this.$slots.trigger
             ? [uploadComponent, this.$slots.default]
             : uploadComponent
         }
         {this.$slots.tip}
-        { this.listType !== 'picture-card' ? uploadList : ''}
+        {this.listType !== 'picture-card' ? uploadList : ''}
       </div>
     );
   }

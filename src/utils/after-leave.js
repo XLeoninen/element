@@ -1,15 +1,15 @@
 /**
- * Bind after-leave event for vue instance. Make sure after-leave is called in any browsers.
+ * Bind after-leave event for vue instance. Make sure after-leave is called in any browsers.这东西是用来干嘛的啊
  *
  * @param {Vue} instance Vue instance.
  * @param {Function} callback callback of after-leave event
  * @param {Number} speed the speed of transition, default value is 300ms
  * @param {Boolean} once weather bind after-leave once. default value is false.
  */
-export default function(instance, callback, speed = 300, once = false) {
+export default function (instance, callback, speed = 300, once = false) {
   if (!instance || !callback) throw new Error('instance & callback is required');
   let called = false;
-  const afterLeaveCallback = function() {
+  const afterLeaveCallback = function () {
     if (called) return;
     called = true;
     if (callback) {

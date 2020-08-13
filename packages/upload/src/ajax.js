@@ -1,3 +1,4 @@
+//获得错误
 function getError(action, option, xhr) {
   let msg;
   if (xhr.response) {
@@ -14,7 +15,7 @@ function getError(action, option, xhr) {
   err.url = action;
   return err;
 }
-
+//获得body体
 function getBody(xhr) {
   const text = xhr.responseText || xhr.response;
   if (!text) {
@@ -27,7 +28,7 @@ function getBody(xhr) {
     return text;
   }
 }
-
+//上传
 export default function upload(option) {
   if (typeof XMLHttpRequest === 'undefined') {
     return;
