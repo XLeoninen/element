@@ -10,11 +10,8 @@ const loadingDirective = {};
 loadingDirective.install = Vue => {
   //如果是服务器环境就直接返回
   if (Vue.prototype.$isServer) return;
-  //这是一个不允许更改的常量函数
   const toggleLoading = (el, binding) => {
-    //这里的binding。value是什么？  是钩子函数传入的值，如果binding为true
     if (binding.value) {
-
       Vue.nextTick(() => {
         //分别调用了三次insertDOm
         //如果是全屏的话
@@ -84,6 +81,7 @@ loadingDirective.install = Vue => {
   //插入dom节点，用来给toggleloading调用
   const insertDom = (parent, el, binding) => {
     //这句话还有点问题，没看懂
+    //el不是被绑定的元素吗，哦它里面还存了要绑的东西所以要传进来
     //主要不知道domvisible是什么，visible的东西太多了
     if (!el.domVisible && getStyle(el, 'display') !== 'none' && getStyle(el, 'visibility') !== 'hidden') {
       //把保存在备份中的样式正式添加上去
